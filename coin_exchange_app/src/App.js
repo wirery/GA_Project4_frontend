@@ -1,5 +1,5 @@
 import { Component } from 'react'
-
+import NewForm from './components/new_form'
 const baseURL = 'http://localhost:3003';
 
 
@@ -112,13 +112,13 @@ class App extends Component {
     return (
       <div className="container">
         <h1>Coins</h1>
-        {/* {
+        {/* {{
           this.state.form
             ?
             <Coin updateCoin={this.updateCoin} coinUpdate={this.state.coinUpdate} />
-            :
+            : */}
             <NewForm className="new-form" handleAddBookmark={this.handleAddCoin} />
-        } */}
+        } }
         <div>
           <div>
             < table >
