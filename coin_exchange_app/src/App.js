@@ -22,7 +22,7 @@ class App extends Component {
     this.handleAddCoin = this.handleAddCoin.bind(this)
     this.updateCoin = this.updateCoin.bind(this)
     this.toggleForm = this.toggleForm.bind(this)
-    // this.deleteCoin = this.deleteCoin.bind(this)
+    this.deleteCoin = this.deleteCoin.bind(this)
 
   }
   componentDidMount() {
@@ -91,7 +91,7 @@ class App extends Component {
 
   }
 
-  deleteCoins(id) {
+  deleteCoin(id) {
     fetch(`${baseURL}/coins/${id}`, {
       method: 'DELETE'
     })
@@ -119,7 +119,7 @@ class App extends Component {
             ?
             <Coin updateCoin={this.updateCoin} coinUpdate={this.state.coinUpdate} />
             : 
-            <NewForm className="new-form" handleAddBookmark={this.handleAddCoin} />
+            <NewForm className="new-form" handleAddCoin={this.handleAddCoin} />
         } 
         <div>
           <div>
@@ -128,7 +128,7 @@ class App extends Component {
                 {this.state.coins.map(coin => {
                   return (
                     <tr key={coin._id} >
-                      <td><a href={coin.country}>{coin.img}</a></td>
+                      <td><a href={coin.country}>{coin.img} {coin.year} {coin.quantity} {coin.grade} {coin.value}</a></td>
                       <td><button onClick={() => this.toggleForm(coin)}>update</button></td>
                       <td ><button onClick={() => this.deleteCoin(coin._id)}>delete</button></td>       
                        </tr>
