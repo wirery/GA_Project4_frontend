@@ -1,7 +1,16 @@
 import { Component } from 'react'
 import NewForm from './components/new_form'
 import Coin from './components/coins'
-const baseURL = 'http://localhost:3003';
+import GoogleLogin from 'react-google-login'
+
+let baseURL;
+
+if (process.env.NODE_ENV === 'development') {
+  baseURL = 'http://localhost:3003';
+} else {
+  // "https://fathomless-sierra-68956.herokuapp.com" in this case is the *API* url
+  baseURL = 'https://fathomless-sierra-68956.herokuapp.com';
+}
 
 
 class App extends Component {
@@ -19,6 +28,10 @@ class App extends Component {
       form: false
 
     }    
+    // responseGoogle=(response) =>{
+    //   console.log(response)
+    //   console.log(response.profileObj)
+    // }
     this.handleAddCoin = this.handleAddCoin.bind(this)
     this.updateCoin = this.updateCoin.bind(this)
     this.toggleForm = this.toggleForm.bind(this)
@@ -113,6 +126,13 @@ class App extends Component {
   render() {
     return (
       <div className="container">
+        <GoogleLogin 
+        clientId='84135572591-85ia0vnbnu1pdunsj26leguear05qor0.apps.googleusercontent.com'
+        buttonText = "Login"
+        onSuccess={this.responseGoogle}
+        onFailure={this.responseGoogle}
+        cookiePolicy={'single_host_origin'}
+        />
         <h1>Coins</h1>
         {
           this.state.form
