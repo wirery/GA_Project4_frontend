@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'development') {
   baseURL = 'http://localhost:3003';
 } else {
   // "https://fathomless-sierra-68956.herokuapp.com" in this case is the *API* url
-  baseURL = 'https://fathomless-sierra-68956.herokuapp.com';
+  baseURL = 'https://coin-exchange-backend.herokuapp.com/';
 }
 
 
