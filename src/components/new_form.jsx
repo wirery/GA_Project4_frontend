@@ -1,7 +1,13 @@
 import { Component } from 'react'
 
-const baseURL = 'http://localhost:3003'
+let baseURL;
 
+if (process.env.NODE_ENV === 'development') {
+  baseURL = 'http://localhost:3003';
+} else {
+  // "https://fathomless-sierra-68956.herokuapp.com" in this case is the *API* url
+  baseURL = 'https://coin-exchange-backend.herokuapp.com';
+}
 class NewForm extends Component {
     constructor(props) {
         super(props)
