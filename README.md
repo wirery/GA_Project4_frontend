@@ -20,3 +20,9 @@ Future Updates
 --the ability for the user to truly purchase a coin
 --Ability to reduce the quantity of the coins, if there are multiple once a coin is purchased
 --the ability to search for coins in the website
+
+User Stories:
+
+"I can login using google login, and Oauth grants me a token of authentication"
+"I can add, edit and delete coins to sell on the app"
+"I can 'sell' coins on the app by updating the quantity of the coins, or deleting them from the app"
