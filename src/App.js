@@ -185,7 +185,7 @@ class App extends Component {
                         <td> {coin.grade}
                         </td>
                         <td> {coin.value}</td>
-                        <td><button onClick={() => this.toggleForm(coin)}>update</button></td>
+                        <td><button onClick={() => this.toggleForm(coin)} class="btn btn-primary">update</button></td>
                         <td ><button onClick={() => this.deleteCoin(coin._id)}>delete</button></td>
                       </tr>
                     )
