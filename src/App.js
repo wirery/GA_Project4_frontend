@@ -2,6 +2,11 @@ import { Component } from 'react'
 import NewForm from './components/new_form'
 import Coin from './components/coins'
 import GoogleLogin from 'react-google-login'
+import { GoogleLogout } from 'react-google-login'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './index.css'
+import './App.css'
+// import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
 let baseURL;
 
@@ -12,12 +17,11 @@ if (process.env.NODE_ENV === 'development') {
   baseURL = 'https://coin-exchange-backend.herokuapp.com';
 }
 
-
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      coins:[],
+      coins: [],
       country: [],
       img: [],
       year: [],
@@ -25,13 +29,10 @@ class App extends Component {
       grade: [],
       value: [],
       coinUpdate: {},
-      form: false
+      form: false,
+      redirectToLogin: false
 
-    }    
-    // responseGoogle=(response) =>{
-    //   console.log(response)
-    //   console.log(response.profileObj)
-    // }
+    }
     this.handleAddCoin = this.handleAddCoin.bind(this)
     this.updateCoin = this.updateCoin.bind(this)
     this.toggleForm = this.toggleForm.bind(this)
@@ -45,7 +46,7 @@ class App extends Component {
   toggleForm(coin) {
     this.setState({
       form: true,
-      coinUpdate: coin
+      coinUpdate: coin,
     })
   }
 
@@ -58,7 +59,7 @@ class App extends Component {
         return data.json()
       },
         err => console.log(err))
-      .then(parsedData => this.setState({coins:parsedData}),
+      .then(parsedData => this.setState({ coins: parsedData }),
         err => console.log(err))
   }
 
@@ -80,12 +81,12 @@ class App extends Component {
     fetch(`${baseURL}/coins/${coin._id}`, {
       method: 'PUT',
       body: JSON.stringify({
-      country: coin.country,
-      img: coin.img,
-      year: coin.year,
-      quantity: coin.quantity,
-      grade: coin.grade,
-      value: coin.value,
+        country: coin.country,
+        img: coin.img,
+        year: coin.year,
+        quantity: coin.quantity,
+        grade: coin.grade,
+        value: coin.value,
       }),
       headers: {
         'Content-Type': 'application/json'
@@ -121,46 +122,108 @@ class App extends Component {
   }
 
 
+  responseGoogle = (response) => {
+    console.log(response)
+    console.log(response.profileObj)
+    this.setState({
+      redirectToLogin: true
+    })
+  }
 
+
+  responseGoogleLogout = (response) => {
+    console.log(response)
+    this.setState({
+      redirectToLogin: false
+    })
+  }
 
   render() {
-    return (
-      <div className="container">
-        <GoogleLogin 
-        clientId='84135572591-85ia0vnbnu1pdunsj26leguear05qor0.apps.googleusercontent.com'
-        buttonText = "Login"
-        onSuccess={this.responseGoogle}
-        onFailure={this.responseGoogle}
-        cookiePolicy={'single_host_origin'}
-        />
-        <h1>Coins</h1>
-        {
-          this.state.form
-            ?
-            <Coin updateCoin={this.updateCoin} coinUpdate={this.state.coinUpdate} />
-            : 
-            <NewForm className="new-form" handleAddCoin={this.handleAddCoin} />
-        } 
-        <div>
+    if (this.state.redirectToLogin) {
+      return (
+        <div className='primary'>      <GoogleLogout
+          clientId='84135572591-85ia0vnbnu1pdunsj26leguear05qor0.apps.googleusercontent.com'
+          buttonText='Logout'
+          onLogoutSuccess={this.responseGoogleLogout}
+
+        >
+        </GoogleLogout>   <h1>Coins</h1>
+          {
+            this.state.form
+              ?
+              <Coin updateCoin={this.updateCoin} coinUpdate={this.state.coinUpdate} />
+              :
+              <NewForm className="new-form" handleAddCoin={this.handleAddCoin} />
+          }
           <div>
-            < table >
-              <tbody>
-                {this.state.coins.map(coin => {
-                  return (
-                    <tr key={coin._id} >
-                      <td><a href={coin.country}>{coin.img} {coin.year} {coin.quantity} {coin.grade} {coin.value}</a></td>
-                      <td><button onClick={() => this.toggleForm(coin)}>update</button></td>
-                      <td ><button onClick={() => this.deleteCoin(coin._id)}>delete</button></td>       
-                       </tr>
-                  )
-                })
-                }
-              </tbody> 
-            </table >
+            <div> 
+              <h2>Current Coins Available</h2>
+              < table >
+                <thead>
+                  <tr>
+                  <th>country</th>
+                  <th>img</th>
+                  <th>year</th>
+                  <th>quantity</th>
+                  <th>grade</th>
+                  <th>value</th>
+                  <th>update</th>
+                  <th>delete</th>
+                  </tr>
+
+                </thead>
+                <tbody>
+                  {this.state.coins.map(coin => {
+                    return (
+                      <tr key={coin._id} >
+                        <td>{coin.country}</td>
+                        <td><img src={coin.img} alt="coin" width='100'/></td>
+                        <td> {coin.year}
+                        </td>
+                        <td> {coin.quantity}
+                        </td>
+                        <td> {coin.grade}
+                        </td>
+                        <td> {coin.value}</td>
+                        <td><button onClick={() => this.toggleForm(coin)}>update</button></td>
+                        <td ><button onClick={() => this.deleteCoin(coin._id)}>delete</button></td>
+                      </tr>
+                    )
+                  })
+                  }
+                </tbody>
+              </table >
+            </div>
           </div>
         </div>
-      </div>
-    )
+
+
+      )
+    } else {
+      return (
+        //     <Router>
+        //       <Switch>
+        //         <Route exact path='react-google-login' component={GoogleLogin} />
+        //         <Route exact path='../components/new_form' component={NewForm} />
+        //       </Switch>
+        //     </Router>)
+
+
+
+        <div className="container">
+          <GoogleLogin
+            clientId='84135572591-85ia0vnbnu1pdunsj26leguear05qor0.apps.googleusercontent.com'
+            buttonText="Login"
+            onSuccess={this.responseGoogle}
+            onFailure={this.responseGoogle}
+            cookiePolicy={'single_host_origin'}
+          ></GoogleLogin>
+
+
+        </div>
+      )
+    }
+
   }
 }
 
