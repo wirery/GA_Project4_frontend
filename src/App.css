@@ -1,0 +1,31 @@
+body {
+
+  background-color:black;
+  color: white;
+  padding: 1em;
+  text-align:center;
+
+}
+
+form{
+  background-image: url('https://tse1.mm.bing.net/th?id=OIP.vBUzi8KGdAZjN5F1UsELSwHaHa&pid=Api&P=0&w=300&h=300');
+  height: 700;
+
+}
+
+table {
+  border: 1px solid black;
+  position: inherit;
+  margin: auto;
+  padding: 10px;
+  width: 100px;
+  height: 20px;
+  background-color: rgb(232, 10, 25);
+}
+
+@media screen and (max-width: 600px) {
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
